@@ -1,0 +1,97 @@
+ 小念云盘 · Xiaonian Cloud Drive（纯云端 · GitHub 存储）
+
+一款"私人云盘网站"："单用户、仅密码登录，必须登录后才能访问"。文件真正存储在 "GitHub 仓库的 file/ 目录"（即云盘根目录），通过 api/ 文件夹内的 Serverless 接口完成上传 / 列表 / 回收站 / 下载，"无本地存储，只保留云端功能"，支持跨设备访问与分享链接。
+
+文件列表参照 "百度网盘 / 阿里云盘 / 坚果云 / 123 云盘" 的布局：名称 / 大小 / 修改时间 / 操作列、文件夹导航（面包屑）、排序、搜索、列表/网格视图切换、多选批量操作、存储用量条，并全面适配手机端。界面采用"橙色主题"。
+
+ 登录与访问控制
+
+- "单用户密码登录"：登录页只需输入访问密码，无用户名 / 无注册。
+- "密码安全"：密码"不存储明文"，仅以「加盐 SHA-256 哈希」形式存在客户端用于校验（login.html 中 SALT + PASS_HASH）。
+- "强制登录"：未登录（或会话过期）访问 index.html 会"自动跳转登录页"；只有登录后才能进入云盘并执行所有文件操作。
+- "登录后可用全部功能"：上传、新建文件夹、删除（回收站）、下载、预览、搜索、排序、视图切换、多选批量、背景设置等，均仅在登录状态下提供，不存在"未登录可修改"的入口。
+- "会话"：登录后 7 天自动登录；「我的信息」页可退出登录（退出后需重新输入密码）。
+
+ 云端存储（GitHub）
+
+- "存储位置"：GitHub 仓库 NewWebCreate/xiaonian-imgbed 的 file/ 目录（即云盘根目录），默认分支 main。
+- "接口"：复用 api/ 文件夹内的 Serverless 接口（与 V2 同一套，路径前缀由 img/ 改为 file/）：
+  - POST /api/upload：上传 / 新建文件夹（.keep 占位），支持子目录与中文路径，返回 {ok,name,path,size,sha,url,display_url,raw_url}
+  - GET /api/list?path=&recursive=1：递归列目录（.trash 即回收站）
+  - POST /api/delete：{op} = trash | restore | delete | empty，实现移入回收站 / 还原 / 彻底删除 / 清空
+  - GET /api/file?path=file%2F<rel>：取文件 / 图片 / 视频 / 文本代理（分享链接走这里）
+- "凭据安全"：GitHub PAT 仅写死在服务端 api/*.js，"不下发到浏览器"；浏览器只通过 /api/* 访问云端。
+
+ 页面
+
+| Hash | 页面 | 说明 |
+|------|------|------|
+| indexfiles（默认） | 我的文件 | 云盘详细文件列表（核心页） |
+| indextrash | 回收站 | 已删除文件，可还原 / 彻底删除 / 清空 |
+| indexupload | 上传文件 | 任意类型文件拖拽/点选上传 |
+| indexbg | 设置背景 | 纯色 / 图片 / 随机背景 |
+| indexmine | 我的信息 | 云端存储说明 + 已用空间 + 退出登录 |
+
+ 核心功能
+
+- "详细文件列表"：名称（带类型图标 / 图片缩略图）、大小、修改时间、操作（下载 / 分享），文件带「云」标记
+- "回收站"：删除改为软删除（移入云端 .trash），支持单条还原 / 彻底删除 / 一键清空
+- "文件夹系统"：新建文件夹、点击进入、面包屑逐级返回；文件夹用 .keep 占位（界面隐藏）
+- "排序 / 搜索 / 视图切换 / 多选批量"（下载 / 删除 / 取消，支持全选）
+- "上传"：任意文件类型，单文件 ≤ 64MB，实时进度，自动处理同目录重名，真实写入 GitHub file/
+- "分享"：每条文件生成云端直链（/api/file 代理），可复制 / 新窗口打开 / 下载
+- "预览 / 详情"：图片全屏缩放、文本本页预览、视频新页播放；任意文件查看类型、大小、修改时间、所在位置
+- "存储用量条"：实时显示已用空间 / 32GB 容量
+
+ 本地预览（需联云端）
+
+纯云端版"依赖 /api/* 接口"，不能只开静态服务器。两种方式：
+
+1. "部署到 Vercel" 后访问在线域名（推荐，见下）。
+2. 本地用代理服务器把 /api/* 转发到真实 GitHub（开发调试用）。
+
+ 修改访问密码
+
+默认密码为 "nianpan"（哈希见 login.html 中的 PASS_HASH，与盐 SALT 共同参与校验，明文不落盘）。
+
+如需修改密码：在 login.html 中更新 SALT 与 PASS_HASH，并用以下命令计算新的哈希：
+
+bash
+node -e "const c=require('crypto'); console.log(c.createHash('sha256').update('<你的盐>'+'<你的新密码>').digest('hex'))"
+
+
+把得到的十六进制串填入 PASS_HASH 即可（login.html 与 script.js 中的哈希保持一致）。
+
+ 项目结构
+
+
+xiaonian-cloud-drive/
+├── index.html         入口页（未登录自动跳转 login.html）
+├── script.js          云盘全部逻辑（纯云端 · 复用 /api 接口 · 强制登录）
+├── style.css          橙色主题 + 毛玻璃风格 + 文件列表 + 移动端适配
+├── login.html         私人登录（单密码，加盐 SHA-256 校验，不存明文）
+├── api/
+│   ├── upload.js      上传 / 新建文件夹（file/ 前缀，含子目录与中文路径）
+│   ├── list.js        递归列目录（file/ 根，.trash 回收站）
+│   ├── delete.js      trash / restore / delete / empty
+│   └── img.js         取图 / 下载代理
+├── bg/ bglist.yaml    背景资源与配置
+├── font/ profile/     字体、默认头像
+└── vercel.json / 404.html
+
+
+ 部署到 Vercel
+
+1. 将本目录推到 GitHub 仓库（含 api/）。
+2. https://vercel.com → Add New → Project → 导入该仓库。
+3. Framework Preset 选 "Other"，Root Directory 保持 /，直接 Deploy。
+4. 访问 xxx.vercel.app 即可（打开即进入登录页）。
+
+> 注意：vercel.json 的 functions 已登记 api/{upload,list,delete,img}.js 全部四个接口，"不要删减"，否则云端列表 / 回收站 / 删除会失效。
+
+ 说明
+
+- 云盘为"私人空间"，文件存在 "GitHub 仓库 file/"，可跨设备访问；删除后进回收站（file/.trash），彻底删除后从仓库移除。
+- 登录只做客户端哈希校验；未登录时云盘内容与操作完全不可达（自动跳转登录页）。
+- 分享链接为 file/ 下单个文件的"只读云端直链"，任何有网浏览器均可打开下载；如需关闭可移除文件行的「分享」按钮。
+- 部署后如修改仓库或密钥，直接编辑 api/*.js 内的配置即可（PAT 仅服务端可见）。
