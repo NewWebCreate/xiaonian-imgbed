@@ -1,0 +1,321 @@
+快照时间: 2026-09-12 周六 12:25:28.29
+---------- SysMain ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: SysMain
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 0   IGNORE
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k LocalSystemNetworkRestricted -p
+        LOAD_ORDER_GROUP   : profsvc_group
+        TAG                : 0
+        DISPLAY_NAME       : SysMain
+        DEPENDENCIES       : rpcss
+                           : fileinfo
+        SERVICE_START_NAME : LocalSystem
+---------- DiagTrack ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: DiagTrack
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\System32\svchost.exe -k utcsvc -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Connected User Experiences and Telemetry
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
+---------- InventorySvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: InventorySvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 2   AUTO_START  (DELAYED)
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k InvSvcGroup -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : 清单和兼容性评估服务
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
+---------- whesvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: whesvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 2   AUTO_START  (DELAYED)
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k whesvc -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Windows 健康状况和优化体验
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
+---------- wuqisvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: wuqisvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k WuqiSvcGroup -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Microsoft 使用情况和质量见解
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : NT AUTHORITY\LocalService
+---------- WSAIFabricSvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: WSAIFabricSvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k WSAIFabricSvcGroup -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : WSAIFabricSvc
+        DEPENDENCIES       : RPCSS
+                           : BrokerInfrastructure
+                           : staterepository
+                           : appxsvc
+        SERVICE_START_NAME : NT AUTHORITY\LocalService
+---------- XboxGipSvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: XboxGipSvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k netsvcs -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Xbox Accessory Management Service
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- XblGameSave ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: XblGameSave
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k netsvcs -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Xbox Live 游戏保存
+        DEPENDENCIES       : UserManager
+                           : XblAuthManager
+        SERVICE_START_NAME : LocalSystem
+---------- XboxNetApiSvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: XboxNetApiSvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k netsvcs -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Xbox Live 网络服务
+        DEPENDENCIES       : BFE
+                           : mpssvc
+                           : IKEEXT
+                           : KeyIso
+        SERVICE_START_NAME : LocalSystem
+---------- XblAuthManager ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: XblAuthManager
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k netsvcsRedirectionGuard -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Xbox Live 身份验证管理器
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
+---------- BcastDVRUserService_c3bd2 ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: BcastDVRUserService_c3bd2
+        TYPE               : e0  USER_SHARE_PROCESS INSTANCE  
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k BcastDVRUserService
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : BcastDVRUserService_c3bd2
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : 
+---------- LenovoServiceAS ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: LenovoServiceAS
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 0   IGNORE
+        BINARY_PATH_NAME   : "C:\Program Files (x86)\Lenovo\LeAppStore\LenovoServiceAS.exe"
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : LenovoServiceAS
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- SmartSense ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: SmartSense
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\System32\DriverStore\FileRepository\lnvsst.inf_amd64_f8de591f61b17e16\SmartSense.exe
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Lenovo Intelligent Sensing Service
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- LISFService ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: LISFService
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 2   AUTO_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : "C:\Program Files (x86)\Lenovo\LenovoInternetSoftwareFramework\LISFService.exe"
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Lenovo Internet Software Framework Service
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- MapsBroker ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: MapsBroker
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 2   AUTO_START  (DELAYED)
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\System32\svchost.exe -k NetworkService -p
+        LOAD_ORDER_GROUP   : NetworkService
+        TAG                : 0
+        DISPLAY_NAME       : Downloaded Maps Manager
+        DEPENDENCIES       : rpcss
+        SERVICE_START_NAME : NT AUTHORITY\NetworkService
+---------- PhoneSvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: PhoneSvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k LocalService -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Phone Service
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : NT Authority\LocalService
+---------- RetailDemo ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: RetailDemo
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\System32\svchost.exe -k rdxgroup
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : 零售演示服务
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- wmiApSrv ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: wmiApSrv
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\wbem\WmiApSrv.exe
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : WMI Performance Adapter
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : localSystem
+---------- WalletService ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: WalletService
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 0   IGNORE
+        BINARY_PATH_NAME   : C:\Windows\System32\svchost.exe -k appmodel -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : WalletService
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- SEMgrSvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: SEMgrSvc
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 0   IGNORE
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k LocalService -p
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : 付款和 NFC/SE 管理器
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : NT AUTHORITY\LocalService
+---------- SCardSvr ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: SCardSvr
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k LocalServiceAndNoImpersonation
+        LOAD_ORDER_GROUP   : SmartCardGroup
+        TAG                : 0
+        DISPLAY_NAME       : Smart Card
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : NT AUTHORITY\LocalService
+---------- ScDeviceEnum ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: ScDeviceEnum
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k LocalSystemNetworkRestricted
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Smart Card Device Enumeration Service
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+---------- SCPolicySvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: SCPolicySvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k netsvcs
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : Smart Card Removal Policy
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
+---------- WbioSrvc ----------
+[SC] QueryServiceConfig 成功
+
+SERVICE_NAME: WbioSrvc
+        TYPE               : 20  WIN32_SHARE_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : C:\Windows\system32\svchost.exe -k WbioSvcGroup
+        LOAD_ORDER_GROUP   : SmartCardGroup
+        TAG                : 0
+        DISPLAY_NAME       : Windows Biometric Service
+        DEPENDENCIES       : RpcSs
+        SERVICE_START_NAME : LocalSystem
