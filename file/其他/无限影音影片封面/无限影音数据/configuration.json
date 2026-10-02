@@ -1,0 +1,26 @@
+{
+  "site": {
+    "name": "无限影音",
+    "slogan": "VIP 视频在线解析 · 免广告畅看",
+    "dataFile": "data.json",
+    "year": "2026"
+  },
+  "parseApis": [
+    { "name": "默认", "base": "https://yparse.ik9.cc/index.php?url=" },
+    { "name": "七哥", "base": "https://jx.202617.xyz/tv.php?url=" }
+  ],
+  "defaultApi": 0,
+  "featured": {
+    "banner": [
+      { "id": "natu" },
+      { "id": "zhanshen" },
+      { "id": "nezha" }
+    ],
+    "recommend": [
+      { "id": "natu" },
+      { "id": "zhanshen" },
+      { "id": "xiongchutou" },
+      { "id": "chali" }
+    ]
+  }
+}
