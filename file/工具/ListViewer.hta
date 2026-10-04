@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<HTA:APPLICATION
+ID="DirViewer"
+APPLICATIONNAME="平铺目录清单阅读器"
+BORDER="thin"
+CAPTION="yes"
+SCROLL="no"
+SHOWINTASKBAR="yes"
+SINGLEINSTANCE="yes"
+WINDOWSTATE="normal"
+/>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>平铺目录清单阅读器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI","微软雅黑","Microsoft YaHei",SimSun,Arial,sans-serif;font-size:13px;-ms-user-select:none;user-select:none;}
+input,textarea{-ms-user-select:text;user-select:text;}
+html,body{width:100%;height:100%;overflow:hidden;background:#f3f3f3;color:#1f1f1f;}
+#topBar{position:absolute;top:0;left:0;width:100%;height:48px;background:#f3f3f3;}
+#btnUp{position:absolute;top:9px;left:10px;width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:6px;}
+#btnUp:hover{background:rgba(0,0,0,0.06);}
+#btnUp:active{background:rgba(0,0,0,0.10);}
+#btnUp svg{width:18px;height:18px;display:block;margin:7px auto;}
+#addrBox{position:absolute;top:9px;left:52px;right:178px;height:32px;border:1px solid #e0e0e0;background:#ffffff;padding:0 12px;line-height:30px;border-radius:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#1f1f1f;}
+#searchBox{position:absolute;top:9px;right:10px;width:160px;height:32px;border:1px solid #e0e0e0;border-radius:6px;padding:0 10px;font-size:12px;background:#ffffff;color:#1f1f1f;}
+#searchBox:focus{border-color:#0067c0;}
+#side{position:absolute;top:48px;left:0;bottom:28px;width:220px;background:#f3f3f3;border-right:1px solid #ececec;overflow:auto;padding:10px 6px;}
+.sideHead{height:26px;line-height:26px;padding-left:10px;color:#707070;font-size:12px;}
+.sideItem{padding:6px 10px;cursor:pointer;border-radius:4px;color:#1f1f1f;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sideItem:hover{background:#e7eef6;}
+.sideItem.cur{background:#e3f0fb;color:#0067c0;}
+#main{position:absolute;top:48px;left:220px;right:0;bottom:28px;background:#ffffff;}
+#colHead{position:absolute;top:0;left:0;width:100%;height:32px;background:#f3f3f3;line-height:32px;}
+#colHead .c1{position:absolute;left:0;width:38%;padding-left:16px;color:#616161;font-size:12px;}
+#colHead .c2{position:absolute;left:38%;width:14%;color:#616161;font-size:12px;}
+#colHead .c3{position:absolute;left:52%;width:48%;color:#616161;font-size:12px;}
+#listWrap{position:absolute;top:32px;left:0;right:0;bottom:0;overflow:auto;background:#ffffff;}
+table.tbl{width:100%;border-collapse:collapse;table-layout:fixed;}
+tr.item td{padding:0 12px;border-bottom:1px solid #f5f5f5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:28px;line-height:28px;font-size:13px;}
+tr.item:hover td{background:#f6f7f8;}
+tr.item.sel td{background:#e3f0fb;}
+td.c1{width:38%;}
+td.c2{width:14%;color:#616161;}
+td.c3{width:48%;color:#787878;}
+.ficon{display:inline-block;width:16px;height:12px;background:#f5c542;border:1px solid #d19c1c;position:relative;vertical-align:middle;margin-right:6px;border-radius:2px;}
+.ficon .tab{position:absolute;top:-4px;left:-1px;width:8px;height:4px;background:#f5c542;border:1px solid #d19c1c;border-bottom:none;border-radius:2px 2px 0 0;}
+.picon{display:inline-block;width:12px;height:14px;background:#ffffff;border:1px solid #9aa4b0;position:relative;vertical-align:middle;margin-right:6px;border-radius:1px;}
+.picon .ln{display:block;height:1px;background:#c4ccd4;margin:2px 2px 0 2px;}
+#stBar{position:absolute;bottom:0;left:0;width:100%;height:28px;background:#f3f3f3;border-top:1px solid #ececec;}
+#stTxt{position:absolute;top:0;left:12px;right:170px;line-height:28px;color:#616161;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#btnCopy{position:absolute;top:3px;right:10px;height:24px;padding:0 12px 0 8px;border:none;background:#0067c0;color:#ffffff;cursor:pointer;font-size:12px;border-radius:4px;line-height:24px;}
+#btnCopy:hover{background:#0f70c9;}
+#btnCopy:active{background:#005ba3;}
+#btnCopy svg{width:14px;height:14px;display:inline-block;vertical-align:-2px;margin-right:5px;}
+#ctxMenu{position:absolute;display:none;z-index:1000;background:#ffffff;border:1px solid #e3e3e3;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.15);padding:4px;min-width:190px;}
+.ctxItem{padding:7px 12px;border-radius:4px;cursor:pointer;font-size:13px;color:#1f1f1f;white-space:nowrap;}
+.ctxItem:hover{background:#f3f3f3;}
+.ctxItem svg{width:14px;height:14px;vertical-align:-2px;margin-right:8px;display:inline-block;}
+.ctxItem .ct{display:inline-block;vertical-align:middle;}
+</style>
+</head>
+<body>
+<div id="topBar">
+<button id="btnUp" title="向上一级"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><polygon points="8,1 15,8 11,8 11,15 5,15 5,8 1,8" fill="#3b3b3b"/></svg></button>
+<div id="addrBox"></div>
+<input id="searchBox" type="text" value="" title="按名称筛选当前文件夹">
+</div>
+<div id="side"></div>
+<div id="main">
+<div id="colHead"><span class="c1">名称</span><span class="c2">类型</span><span class="c3">完整路径</span></div>
+<div id="listWrap"></div>
+</div>
+<div id="stBar">
+<span id="stTxt"></span>
+<button id="btnCopy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect x="6" y="6" width="9" height="9" rx="1.5" fill="none" stroke="#ffffff" stroke-width="1.5"/><rect x="2" y="2" width="9" height="9" rx="1.5" fill="none" stroke="#ffffff" stroke-width="1.5"/></svg>复制路径</button>
+</div>
+<div id="ctxMenu"></div>
+<script>
+var fso = new ActiveXObject("Scripting.FileSystemObject");
+var ws = new ActiveXObject("WScript.Shell");
+
+var ITEMS = [];
+var TYPE = {};
+var DRIVES = [];
+var curDir = "";
+var selPath = "";
+var selRow = null;
+var filterTxt = "";
+var base = "";
+var side, listWrap, stTxt, addrBox, btnUp, btnCopy, searchBox, ctxMenu;
+
+var ICO_COPY = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='6' y='6' width='9' height='9' rx='1.5' fill='none' stroke='#3b3b3b' stroke-width='1.5'/><rect x='2' y='2' width='9' height='9' rx='1.5' fill='none' stroke='#3b3b3b' stroke-width='1.5'/></svg>";
+var ICO_FOLDER = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M1.5 3.5h4l1.5 1.8h7.5v8.2H1.5z' fill='#f5c542' stroke='#d19c1c' stroke-width='0.8'/></svg>";
+var ICO_REFRESH = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M13.6 8.3A5.6 5.6 0 1 1 12 3.9' fill='none' stroke='#3b3b3b' stroke-width='1.6'/><polygon points='12.6,0.8 14,4 10.8,3.4' fill='#3b3b3b'/></svg>";
+
+function on(el, ev, fn) {
+    if (el.addEventListener) { el.addEventListener(ev, fn, false); }
+    else { el.attachEvent("on" + ev, fn); }
+}
+
+function trim(s) {
+    return s.replace(/^\s+|\s+$/g, "");
+}
+
+function baseDir() {
+    var u = location.href;
+    u = u.replace(/^file:\/\/\//, "");
+    u = u.replace(/\//g, "\\");
+    var i = u.lastIndexOf("\\");
+    if (i < 0) return u;
+    return u.substring(0, i);
+}
+
+function nameOf(p) {
+    if (p.length <= 3 && p.charAt(1) === ":") return p;
+    var i = p.lastIndexOf("\\");
+    if (i < 0) return p;
+    return p.substring(i + 1);
+}
+
+function parentOf(p) {
+    if (!p) return "";
+    var u = p.toUpperCase();
+    if (u.length <= 3 && u.charAt(1) === ":") return "";
+    var i = p.lastIndexOf("\\");
+    if (i < 0) return "";
+    if (i === 2 && p.charAt(1) === ":") return p.substring(0, 3);
+    return p.substring(0, i);
+}
+
+function childrenOf(dir) {
+    var out = [];
+    var du = dir.toUpperCase();
+    var i, it;
+    for (i = 0; i < ITEMS.length; i++) {
+        it = ITEMS[i];
+        if (parentOf(it.p).toUpperCase() === du) out.push(it);
+    }
+    out.sort(function (a, b) {
+        if (a.t !== b.t) return a.t === "folder" ? -1 : 1;
+        var an = a.p.toUpperCase(), bn = b.p.toUpperCase();
+        if (an < bn) return -1;
+        if (an > bn) return 1;
+        return 0;
+    });
+    return out;
+}
+
+function loadList() {
+    var txtPath = base + "\\平铺目录清单.txt";
+    if (!fso.FileExists(txtPath)) {
+        status("未找到 平铺目录清单.txt（请与本程序放在同一文件夹）");
+        return;
+    }
+    var ts = fso.OpenTextFile(txtPath, 1);
+    var line, i, ty, fp;
+    ITEMS = [];
+    TYPE = {};
+    DRIVES = [];
+    while (!ts.AtEndOfStream) {
+        line = trim(ts.ReadLine());
+        if (line === "") continue;
+        ty = "";
+        fp = "";
+        i = line.indexOf("[文件夹] ");
+        if (i >= 0) { ty = "folder"; fp = line.substring(i + "[文件夹] ".length); }
+        else {
+            i = line.indexOf("[文件]   ");
+            if (i >= 0) { ty = "file"; fp = line.substring(i + "[文件]   ".length); }
+        }
+        if (ty === "" || fp === "") continue;
+        fp = trim(fp);
+        if (fp === "") continue;
+        if (!TYPE[fp]) {
+            TYPE[fp] = ty;
+            ITEMS.push({ p: fp, t: ty });
+            if (fp.length > 2 && fp.charAt(1) === ":") {
+                var dr = fp.substring(0, 3).toUpperCase();
+                var k, has = false;
+                for (k = 0; k < DRIVES.length; k++) { if (DRIVES[k] === dr) has = true; }
+                if (!has) DRIVES.push(dr);
+            }
+        }
+    }
+    ts.Close();
+}
+
+function escHtml(s) {
+    s = s.replace(/&/g, "&amp;");
+    s = s.replace(/</g, "&lt;");
+    s = s.replace(/>/g, "&gt;");
+    return s;
+}
+
+function escAttr(s) {
+    s = s.replace(/&/g, "&amp;");
+    s = s.replace(/"/g, "&quot;");
+    s = s.replace(/</g, "&lt;");
+    return s;
+}
+
+function rowHtml(it) {
+    var icon;
+    if (it.t === "folder") icon = "<span class='ficon'><span class='tab'></span></span>";
+    else icon = "<span class='picon'><span class='ln'></span><span class='ln'></span><span class='ln'></span></span>";
+    return "<tr class='item'><td class='c1'>" + icon + escHtml(nameOf(it.p)) +
+        "</td><td class='c2'>" + (it.t === "folder" ? "文件夹" : "文件") +
+        "</td><td class='c3'>" + escHtml(it.p) + "</td></tr>";
+}
+
+function render() {
+    var kids = childrenOf(curDir);
+    if (filterTxt !== "") {
+        var f = filterTxt.toUpperCase();
+        var tmp = [];
+        var i;
+        for (i = 0; i < kids.length; i++) {
+            if (nameOf(kids[i].p).toUpperCase().indexOf(f) >= 0) tmp.push(kids[i]);
+        }
+        kids = tmp;
+    }
+    var html = "<table class='tbl'><tbody>";
+    var i;
+    for (i = 0; i < kids.length; i++) html += rowHtml(kids[i]);
+    html += "</tbody></table>";
+    listWrap.innerHTML = html;
+    var rows = listWrap.getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++) {
+        (function (rowEl, it) {
+            rowEl._it = it;
+            on(rowEl, "click", function () { rowClick(rowEl); });
+            on(rowEl, "dblclick", function () { rowDbl(rowEl); });
+        })(rows[i], kids[i]);
+    }
+    status(rows.length + " 个项目" + (selPath !== "" ? "　|　已选中：" + selPath : ""));
+}
+
+function navigate(dir) {
+    curDir = dir;
+    selPath = "";
+    selRow = null;
+    addrBox.innerText = (curDir === "") ? "此电脑" : curDir;
+    btnUp.disabled = (curDir === "");
+    markSide();
+    render();
+}
+
+function rowClick(rowEl) {
+    if (selRow) selRow.className = "item";
+    rowEl.className = "item sel";
+    selRow = rowEl;
+    selPath = rowEl._it.p;
+    status("已选中：" + selPath);
+}
+
+function rowDbl(rowEl) {
+    if (rowEl._it.t === "folder") navigate(rowEl._it.p);
+}
+
+function up() {
+    if (curDir !== "") navigate(parentOf(curDir));
+}
+
+function cmdEsc(s) {
+    return s.replace(/([&|<>^"])/g, "^$1");
+}
+
+function copyPath() {
+    var t = (selPath !== "") ? selPath : curDir;
+    if (t === "") { status("当前在根视图（此电脑），请先选中一个条目"); return; }
+    var ok = false;
+    try {
+        var e = ws.Exec("clip");
+        e.StdIn.Write(t);
+        e.StdIn.Close();
+        ok = true;
+    } catch (err) {
+        ok = false;
+    }
+    if (!ok) {
+        try {
+            ws.Run("cmd /c echo " + cmdEsc(t) + "| clip", 0, true);
+            ok = true;
+        } catch (err2) { ok = false; }
+    }
+    status(ok ? "已复制路径：" + t : "复制失败，请重试");
+}
+
+function status(s) {
+    stTxt.innerText = s;
+}
+
+function markSide() {
+    var items = side.getElementsByTagName("div");
+    var i;
+    for (i = 0; i < items.length; i++) {
+        var d = items[i];
+        if (d.getAttribute && d.getAttribute("data-dir") !== null) {
+            var v = d.getAttribute("data-dir");
+            if (v === curDir || (curDir !== "" && v.toUpperCase() === curDir.toUpperCase())) {
+                d.className = "sideItem cur";
+            } else {
+                d.className = "sideItem";
+            }
+        }
+    }
+}
+
+function buildSide() {
+    var html = "<div class='sideHead'>位置</div>";
+    html += "<div class='sideItem' data-dir=''>此电脑</div>";
+    var i;
+    for (i = 0; i < DRIVES.length; i++) {
+        html += "<div class='sideItem' data-dir='" + escAttr(DRIVES[i]) + "'>" + escHtml(DRIVES[i]) + "</div>";
+    }
+    side.innerHTML = html;
+    var items = side.getElementsByTagName("div");
+    for (i = 0; i < items.length; i++) {
+        (function (el) {
+            on(el, "click", function () {
+                var d = el.getAttribute("data-dir");
+                if (d !== null) navigate(d);
+            });
+        })(items[i]);
+    }
+}
+
+function onSearch() {
+    filterTxt = searchBox.value;
+    render();
+}
+
+function findRow(el) {
+    while (el) {
+        if (el.tagName && el.tagName.toLowerCase() === "tr" && el._it) return el;
+        el = el.parentElement || el.parentNode;
+    }
+    return null;
+}
+
+function clearSel() {
+    if (selRow) selRow.className = "item";
+    selRow = null;
+    selPath = "";
+    var rows = listWrap.getElementsByTagName("tr");
+    status(rows.length + " 个项目");
+}
+
+function listBlankClick(e) {
+    var ev = e || window.event;
+    var el = ev.srcElement || ev.target;
+    if (findRow(el)) return;
+    clearSel();
+}
+
+function hideCtx() {
+    ctxMenu.style.display = "none";
+}
+
+function ctxItem(icon, text, act) {
+    var d = document.createElement("div");
+    d.className = "ctxItem";
+    d.innerHTML = icon + "<span class='ct'>" + text + "</span>";
+    on(d, "click", function () { hideCtx(); act(); });
+    return d;
+}
+
+function showCtx(x, y, items) {
+    ctxMenu.innerHTML = "";
+    var i;
+    for (i = 0; i < items.length; i++) ctxMenu.appendChild(items[i]);
+    ctxMenu.style.display = "block";
+    var w = ctxMenu.offsetWidth;
+    var h = ctxMenu.offsetHeight;
+    var vw = document.documentElement.clientWidth;
+    var vh = document.documentElement.clientHeight;
+    if (x + w > vw - 4) x = vw - w - 4;
+    if (y + h > vh - 4) y = vh - h - 4;
+    if (x < 4) x = 4;
+    if (y < 4) y = 4;
+    ctxMenu.style.left = x + "px";
+    ctxMenu.style.top = y + "px";
+}
+
+function refresh() {
+    var d = curDir;
+    loadList();
+    buildSide();
+    navigate(d);
+    status("已刷新：" + (d === "" ? "此电脑" : d));
+}
+
+function noCtx(e) {
+    var ev = e || window.event;
+    if (ev && ev.returnValue !== undefined) ev.returnValue = false;
+    return false;
+}
+
+function listCtxMenu(e) {
+    var ev = e || window.event;
+    var el = ev.srcElement || ev.target;
+    var row = findRow(el);
+    hideCtx();
+    if (row && row._it) {
+        rowClick(row);
+        var items = [];
+        items.push(ctxItem(ICO_COPY, "复制路径", function () { copyPath(); }));
+        if (row._it.t === "folder") {
+            items.push(ctxItem(ICO_FOLDER, "进入文件夹", function () { navigate(row._it.p); }));
+        }
+        items.push(ctxItem(ICO_REFRESH, "刷新", refresh));
+        showCtx(ev.clientX, ev.clientY, items);
+    } else {
+        clearSel();
+        var items = [];
+        items.push(ctxItem(ICO_COPY, "复制当前文件夹路径", function () { copyPath(); }));
+        items.push(ctxItem(ICO_REFRESH, "刷新", refresh));
+        showCtx(ev.clientX, ev.clientY, items);
+    }
+    return false;
+}
+
+function init() {
+    side = document.getElementById("side");
+    listWrap = document.getElementById("listWrap");
+    stTxt = document.getElementById("stTxt");
+    addrBox = document.getElementById("addrBox");
+    btnUp = document.getElementById("btnUp");
+    btnCopy = document.getElementById("btnCopy");
+    searchBox = document.getElementById("searchBox");
+    ctxMenu = document.getElementById("ctxMenu");
+    document.onselectstart = function (e) {
+        var el = (e && (e.srcElement || e.target)) || (window.event && window.event.srcElement);
+        if (el && el.tagName && (el.tagName.toLowerCase() === "input" || el.tagName.toLowerCase() === "textarea")) return true;
+        return false;
+    };
+    document.oncontextmenu = noCtx;
+    document.onclick = hideCtx;
+    base = baseDir();
+    loadList();
+    buildSide();
+    on(btnUp, "click", up);
+    on(btnCopy, "click", copyPath);
+    on(searchBox, "keyup", onSearch);
+    on(listWrap, "click", listBlankClick);
+    on(listWrap, "contextmenu", listCtxMenu);
+    navigate("");
+}
+
+on(window, "load", init);
+</script>
+</body>
+</html>
