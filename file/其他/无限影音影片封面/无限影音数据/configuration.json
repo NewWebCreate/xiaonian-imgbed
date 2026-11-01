@@ -6,7 +6,7 @@
     "year": "2026"
   },
   "parseApis": [
-    { "name": "默认", "base": "https://yparse.ik9.cc/index.php?url=" },
+    { "name": "默认", "base": "https://jx.202617.xyz/tv.php?url=" },
     { "name": "七哥", "base": "https://jx.202617.xyz/tv.php?url=" }
   ],
   "defaultApi": 0,
